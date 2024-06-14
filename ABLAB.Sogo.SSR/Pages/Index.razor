@@ -1,0 +1,43 @@
+﻿@page "/"
+@using ABLAB.Sogo.Shared.Dtos
+@using ABLAB.Sogo.Shared.Services
+
+<!-- Property Search Section Two -->
+<section class="property-search-section-two" style="background-image: url(images/background/banner-01.jpg);">
+    <div class="auto-container">
+        <div class="content-box">
+            <div class="title-box">
+                <h2>Mieszkania dla Twojej <span>rodziny</span>.</h2>
+                <h4>Osiedla Sogo</h4>
+            </div>
+            <div class="property-search-form style-two">
+                @* <form method="post" action="#"> *@
+                    <div class="row no-gutters">
+                        <ABLAB.Sogo.SSR.Components.SearchParametersComponent />
+                    </div>
+                @* </form> *@
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Property Search Section Two -->
+
+@code{
+    // [Inject] private JsConsole JsConsole { get; set; } = default!;
+    // [Inject] private MenusService MenusService { get; set; } = default!;
+
+    // public SearchParameters? SearchParameters { get; set; }
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     if (SearchParameters == null)
+    //     {
+    //         SearchParameters = await this.MenusService.GetMainFiltersAsync();
+    //     }
+    // }
+
+    // private async Task Search()
+    // {
+    //     await JsConsole.LogAsync("Search button clicked");
+    // }
+}

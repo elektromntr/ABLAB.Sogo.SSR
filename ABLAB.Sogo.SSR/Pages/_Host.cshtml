@@ -1,0 +1,74 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
+@namespace ABLAB.Sogo.SSR.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @* <base href="~/" /> *@
+    
+    <!-- Stylesheets -->
+    <link href="~/css/bootstrap.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/responsive.css" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    @* <link href="css/site.css" rel="stylesheet" /> *@
+    @* <link href="ABLAB.Sogo.SSR.styles.css" rel="stylesheet" /> *@
+    @* <link rel="icon" type="image/png" href="favicon.png"/> *@
+    
+    <!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+</head>
+<body>
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Preloader End -->
+    <button id="back-to-top-btn"><i class="la la-angle-double-up"></i></button>
+    <div class="page-wrapper">
+        <component type="typeof(App)" render-mode="ServerPrerendered" />
+        @* <div id="blazor-error-ui">
+            <environment include="Staging,Production">
+                An error has occurred. This application may no longer respond until reloaded.
+            </environment>
+            <environment include="Development">
+                An unhandled exception has occurred. See browser dev tools for details.
+            </environment>
+            <a href="" class="reload">Reload</a>
+            <a class="dismiss">🗙</a>
+        </div> *@
+    </div>
+    <script src="_framework/blazor.server.js"></script>
+
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.countdown.js"></script>
+    <script src="~/js/jquery.fancybox.js"></script>
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/jquery.fancybox.js"></script>
+    <script src="~/js/owl.js"></script>
+    <script src="~/js/wow.js"></script>
+    <script src="~/js/isotope.js"></script>
+    <script src="~/js/mixitup.js"></script>
+    <script src="~/js/appear.js"></script>
+    <script src="~/js/validate.js"></script>
+    <script src="~/js/script.js"></script>
+    <script src="~/js/scroll.js"></script>
+
+</body>
+</html>

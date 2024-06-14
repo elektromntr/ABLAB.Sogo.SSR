@@ -1,0 +1,114 @@
+﻿@using ABLAB.Sogo.Shared.Dtos
+@using ABLAB.Sogo.Shared.Services
+
+<div class="form-group col-lg-2 col-md-6 col-sm-12">
+    <select class="custom-select-box">
+        @if (ApartmentsParams?.Investments != null)
+        {
+            <option selected value="0">Inwestycja</option>
+            foreach (var item in ApartmentsParams.Investments)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        }
+    </select>
+</div>
+
+<!-- Form Group maxPrice-->
+<div class="form-group col-lg-2 col-md-6 col-sm-12">
+    <select class="custom-select-box" @bind="SelectedMaxPrice">
+            <option selected value="@ApartmentsParams.MaxPrice">Maksymalna cena</option>
+            <option value="@ApartmentsParams.MaxPrice">@ApartmentsParams.MaxPrice</option>
+            @{ 
+                List<decimal> prices = new List<decimal>();
+                decimal maxPrice = ApartmentsParams.MaxPrice.Value;
+                while (maxPrice > ApartmentsParams.MinPrice.Value)
+                {
+                    maxPrice -= 100000;
+                    prices.Add(maxPrice);
+                }
+                foreach (var item in prices)
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+    </select>
+</div>
+
+<!-- Form Group minPrice-->
+<div class="form-group col-lg-2 col-md-6 col-sm-12">
+    <select class="custom-select-box">
+        @if (ApartmentsParams is not null
+        && ApartmentsParams.MinPrice is not null
+        && ApartmentsParams.MaxPrice is not null)
+        {
+            <option selected value="@ApartmentsParams.MinPrice">Minimalna cena</option>
+            <option value="@ApartmentsParams.MinPrice">@ApartmentsParams.MinPrice</option>
+            List<decimal> minPrices = new List<decimal>();
+            decimal minPrice = ApartmentsParams.MinPrice.Value;
+            while (minPrice < ApartmentsParams.MaxPrice.Value)
+            {
+                minPrice += 100000;
+                minPrices.Add(minPrice);
+            }
+            foreach (var item in minPrices)
+            {
+                <option value="@item">@item</option>
+            }
+        }
+    </select>
+</div>
+
+
+<!-- Form Group rooms-->
+<div class="form-group col-lg-2 col-md-6 col-sm-12">
+    <select class="custom-select-box">
+        @if (ApartmentsParams is not null
+        && ApartmentsParams.MinRooms is not null
+        && ApartmentsParams.MaxRooms is not null)
+        {
+            List<decimal> rooms = new List<decimal>();
+            <option selected value="0">Ilość pokoi</option>
+            <option value="@ApartmentsParams.MaxRooms">@ApartmentsParams.MaxRooms</option>
+            decimal maxRooms = ApartmentsParams.MaxRooms.Value;
+            while (maxRooms > ApartmentsParams.MinRooms.Value)
+            {
+                maxRooms -= 1;
+                rooms.Add(maxRooms);
+            }
+            foreach (var item in rooms)
+            {
+                <option value="@item">@item</option>
+            }
+        }
+    </select>
+</div>
+
+<!-- Form Group area-->
+<div class="form-group col-lg-2 col-md-6 col-sm-12">
+    <select class="custom-select-box">
+        @if (ApartmentsParams is not null
+        && ApartmentsParams.MinArea is not null
+        && ApartmentsParams.MaxArea is not null)
+        {
+            List<decimal> areas = new List<decimal>();
+            <option selected value="0">Powierzchnia</option>
+            <option value="@ApartmentsParams.MaxArea">około @ApartmentsParams.MaxArea m<sup>2</sup></option>
+            decimal maxArea = ApartmentsParams.MaxArea.Value;
+            while (maxArea > ApartmentsParams.MinArea.Value)
+            {
+                maxArea -= decimal.Round(maxArea * 0.2m, 0, MidpointRounding.ToEven);
+                areas.Add(maxArea);
+            }
+            foreach (var item in areas)
+            {
+                <option value="@item">około @item m<sup>2</sup></option>
+            }
+        }
+    </select>
+</div>
+
+<!-- Form Group -->
+<div class="form-group col-lg-2 col-md-6 col-sm-12">
+    <button type="submit" class="theme-btn btn-style-one" @onclick="() => SetSearchParameters()">Search</button>
+</div>
