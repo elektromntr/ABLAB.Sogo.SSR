@@ -2,7 +2,7 @@
 @using ABLAB.Sogo.Shared.Services
 
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
-    <select class="custom-select-box">
+    <select class="custom-select-box" @bind="InvestmentId">
         @if (ApartmentsParams?.Investments != null)
         {
             <option selected value="0">Inwestycja</option>
@@ -17,7 +17,7 @@
 <!-- Form Group maxPrice-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
     <select class="custom-select-box" @bind="SelectedMaxPrice">
-            <option selected value="@ApartmentsParams.MaxPrice">Maksymalna cena</option>
+            <option selected value="0">Maksymalna cena</option>
             <option value="@ApartmentsParams.MaxPrice">@ApartmentsParams.MaxPrice</option>
             @{ 
                 List<decimal> prices = new List<decimal>();
@@ -37,12 +37,12 @@
 
 <!-- Form Group minPrice-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
-    <select class="custom-select-box">
+    <select class="custom-select-box" @bind="SelectedMinPrice">
         @if (ApartmentsParams is not null
         && ApartmentsParams.MinPrice is not null
         && ApartmentsParams.MaxPrice is not null)
         {
-            <option selected value="@ApartmentsParams.MinPrice">Minimalna cena</option>
+            <option selected value="0">Minimalna cena</option>
             <option value="@ApartmentsParams.MinPrice">@ApartmentsParams.MinPrice</option>
             List<decimal> minPrices = new List<decimal>();
             decimal minPrice = ApartmentsParams.MinPrice.Value;
@@ -62,7 +62,7 @@
 
 <!-- Form Group rooms-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
-    <select class="custom-select-box">
+    <select class="custom-select-box" @bind="SelectedRooms">
         @if (ApartmentsParams is not null
         && ApartmentsParams.MinRooms is not null
         && ApartmentsParams.MaxRooms is not null)
@@ -86,7 +86,7 @@
 
 <!-- Form Group area-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
-    <select class="custom-select-box">
+    <select class="custom-select-box" @bind="SelectedArea">
         @if (ApartmentsParams is not null
         && ApartmentsParams.MinArea is not null
         && ApartmentsParams.MaxArea is not null)
@@ -110,5 +110,5 @@
 
 <!-- Form Group -->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
-    <button type="submit" class="theme-btn btn-style-one" @onclick="() => SetSearchParameters()">Search</button>
+    <button type="submit" class="theme-btn btn-style-one" @onclick="() => SetSearchParameters()">Szukaj</button>
 </div>

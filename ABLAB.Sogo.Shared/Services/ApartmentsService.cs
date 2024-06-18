@@ -1,17 +1,18 @@
 ﻿using ABLAB.Sogo.Shared.Dtos;
 using System.Net.Http.Json;
+using Flurl.Http;
+using Flurl;
 
 namespace ABLAB.Sogo.Shared.Services;
 
 public class ApartmentsService
 {
     private const decimal DefaultMargin = 0.18m;
-
     private readonly HttpClient _httpClient;
+    public ApartmentsParams? Filter { get; set; } = null!;
     
-    public ApartmentsParams? SelectedSearchParameters { get; set; } = null!;
     public IList<ApartmentDto> ApartmentsStore { get; set; }
-
+    public IList<ApartmentDto> ApartmentsFiltered { get; set; }
 
     public ApartmentsService()
     {
@@ -21,7 +22,7 @@ public class ApartmentsService
         };
     }
 
-    public async Task<IList<ApartmentDto>> GetApartments(SearchParams? searchParams)
+    public async Task FilterApartments(SearchParams? searchParams)
     {
         if (ApartmentsStore is null || ApartmentsStore.Count == 0)
         {
@@ -31,12 +32,23 @@ public class ApartmentsService
                 throw new Exception("Fetching data for ApartmentsStore failed");
             }
         }
+        if (searchParams.SelectedMinPrice > searchParams.SelectedMaxPrice && searchParams.SelectedMaxPrice != 0)
+        {
+            searchParams.SelectedMinPrice = 0;
+        }
+        else if (searchParams.SelectedMaxPrice == searchParams.SelectedMinPrice && searchParams.SelectedMinPrice == 0)
+        {
+            searchParams.SelectedMaxPrice = decimal.MaxValue;
+        }
         var result = ApartmentsStore.Where(a => (searchParams.SelectedMinPrice == null || a.Price >= searchParams.SelectedMinPrice)
                     && (searchParams.SelectedMaxPrice == null || a.Price <= searchParams.SelectedMaxPrice)
-                    && (searchParams.SelectedRooms == null || a.Rooms == searchParams.SelectedRooms)
+                    && (searchParams.SelectedRooms == null 
+                        || (searchParams.SelectedRooms == 0 ? a.Rooms > 0 : a.Rooms == searchParams.SelectedRooms))
                     && (searchParams.SelectedArea == null
-                        || a.Area >= (searchParams.SelectedArea - (searchParams.SelectedArea * DefaultMargin)) 
-                        && a.Area <= (searchParams.SelectedArea + (searchParams.SelectedArea * DefaultMargin))))
+                        || searchParams.SelectedArea == 0 
+                        ? a.Area > 0 
+                        : a.Area >= (searchParams.SelectedArea - (searchParams.SelectedArea * DefaultMargin)) 
+                            && a.Area <= (searchParams.SelectedArea + (searchParams.SelectedArea * DefaultMargin))))
                 .Select(a => new ApartmentDto
                 {
                     Id = a.Id,
@@ -55,7 +67,8 @@ public class ApartmentsService
                     Status = new StatusDto() { Id = a.Status.Id, Name = a.Status.Name },
                     Headlite = a.Headlite
                 }).ToList();
-        return result;
+
+        ApartmentsFiltered = result;
     }
 
     private async Task FetchApartmentsStore()

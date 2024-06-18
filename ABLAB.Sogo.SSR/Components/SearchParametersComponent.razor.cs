@@ -18,17 +18,16 @@ public partial class SearchParametersComponent
 
     public ApartmentsParams? ApartmentsParams { get; set; }
 
-    public SearchParametersComponent()
-    {
-            
-    }
-
     protected override async Task OnInitializedAsync()
     {
         if (ApartmentsParams == null)
         {
             ApartmentsParams = await this.MenusService.GetMainFiltersAsync();
-            SelectedMaxPrice = ApartmentsParams.MaxPrice!.Value;
+            SelectedMaxPrice = 0;
+            SelectedMinPrice = 0;
+            SelectedRooms = 0;
+            SelectedArea = 0;
+            InvestmentId = 0;
         }
     }
 
@@ -45,7 +44,9 @@ public partial class SearchParametersComponent
             InvestmentId = 0
         };
 
-        var apartmnts = await this.ApartmentsService.GetApartments(searchParams);
+        await this.ApartmentsService.FilterApartments(searchParams);
+        await JsConsole.LogAsync(ApartmentsService.ApartmentsFiltered.Count + "apartments filtered");
+
     }
 
 }
