@@ -15,9 +15,9 @@ namespace ABLAB.Sogo.Shared.Services
             await this.JsRuntime.InvokeVoidAsync("console.log", message);
         }
 
-        public async Task LogComponent(string name)
+        public async Task LogError(Exception e, object o)
         {
-            await LogAsync($"{name} initialized");
+            await LogAsync($"EXCEPTION; {o}; {e}");
         }
     }
 }

@@ -17,4 +17,5 @@ public class ApartmentDto
     public string Description { get; set; } = default!;
     public bool ParkingSlot { get; set; } = default!;
     public int Counter { get; set; } = default!;
+    public string ImageFile { get; set; } = default!;
 }

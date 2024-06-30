@@ -1,10 +1,11 @@
 ﻿@using ABLAB.Sogo.Shared.Dtos
 @using ABLAB.Sogo.Shared.Services
 
-@if (PopularApartments is not null && PopularApartments.Count > 0)
+@if (PopularApartments.Count > 0)
 {
     foreach (var apartment in PopularApartments)
     {
+        var imageUrl = $"{ApartmentsService.ApiBaseUrl}{apartment.ImageFile}";
         <!-- New Property -->
         <div class="new-property">
             <div class="row">
@@ -13,8 +14,8 @@
                     <div class="inner-column">
                         <span class="status">@apartment.Status.Name</span>
                         <h3><a href="property-detail.html">Mieszkanie @apartment.Id</a></h3>
-                        <div class="start-from">PLN @apartment.Price</div>
-                        <div class="lucation"><i class="la la-map-marker"></i>@apartment.Investment.Name</div>
+                        <div class=" -from"><i class="flaticon-money"></i> PLN @apartment.Price</div>
+                        <div class="lucation"><i class="la la-map-marker"></i> @apartment.Investment.Name</div>
 
                         <div class="text">@apartment.Description</div>
 
@@ -31,7 +32,7 @@
                 <!-- Image column -->
                 <div class="image-column col-lg-6 col-md-12 col-sm-12">
                     <div class="inner-column">
-                        <figure class="image"><img src="images/resource/recenty_1.jpg" alt=""></figure>
+                        <figure class="image"><img src="@imageUrl" alt="Rzut mieszkania"></figure>
                     </div>
                 </div>
             </div>
@@ -40,7 +41,6 @@
 }
 else
 {
-    <p>Ładowanie...</p>
+    <p>Ładowanie popularnych mieszkań...</p>
 }
-<p><span>Test</span></p>
 <!--End Property Section Two -->

@@ -6,7 +6,7 @@ namespace ABLAB.Sogo.Shared.Services;
 
 public class MenusService
 {
-    private const double DefaultCacheHours = 3;
+    private const double DefaultCacheHours = 1;
 
     private ApartmentsParams? _searchParameters;
     private DateTime _lastUpdate;
@@ -22,12 +22,13 @@ public class MenusService
 
     public async Task<ApartmentsParams> GetMainFiltersAsync()
     {
-         if (_searchParameters is null)
+        if (_searchParameters is null)
         {
             _searchParameters = await _httpClient.GetFromJsonAsync<ApartmentsParams>("search-params", CancellationToken.None);
             _lastUpdate = DateTime.Now;
         }
-        else if (CacheOutOfDate(_lastUpdate, TimeSpan.FromHours(DefaultCacheHours)))
+        else if (CacheHelper.CacheOutOfDate(
+            _lastUpdate, TimeSpan.FromHours(DefaultCacheHours)))
         {
             try
             {
@@ -40,10 +41,5 @@ public class MenusService
             }
         }
         return _searchParameters!;
-    }
-
-    private static bool CacheOutOfDate(DateTime lastUpdate, TimeSpan? cacheDuration = null)
-    {
-        return CacheHelper.CacheOutOfDate(lastUpdate, cacheDuration);
     }
 }

@@ -96,7 +96,7 @@
 			margin:30,
 			nav:true,
 			smartSpeed: 700,
-			autoplay: false,
+			autoplay: true,
 			navText: [ '<span class="la la-angle-left"></span>', '<span class="la la-angle-right"></span>' ],
 			responsive:{
 				0:{
