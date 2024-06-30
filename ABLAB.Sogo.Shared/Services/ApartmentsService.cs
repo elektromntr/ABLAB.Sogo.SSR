@@ -16,9 +16,9 @@ public class ApartmentsService
     private DateTime _lastUpdate;
 
     public IList<ApartmentDto> Store { get; set; } = Array.Empty<ApartmentDto>();
-    public IList<ApartmentDto> Filtered { get; set; } = Array.Empty<ApartmentDto>();
+    public SearchParams Filter { get; set; } = new();
 
-    public event Action OnChange;
+    public event Action FilterChanged;
 
     public ApartmentsService()
     {
@@ -28,9 +28,9 @@ public class ApartmentsService
         };
     }
 
-    private void NotifyStateChanged() => OnChange?.Invoke();
+    private void NotifyFilterChanged() => FilterChanged?.Invoke();
 
-    public async Task FilterApartments(SearchParams? searchParams)
+    public async Task<IList<ApartmentDto>> GetFilteredApartments(SearchParams searchParams)
     {
         await CheckStore();
         if (searchParams.SelectedMinPrice > searchParams.SelectedMaxPrice && searchParams.SelectedMaxPrice != 0)
@@ -41,18 +41,16 @@ public class ApartmentsService
         {
             searchParams.SelectedMaxPrice = decimal.MaxValue;
         }
-        var result = Store.Where(a => (searchParams.SelectedMinPrice == null || a.Price >= searchParams.SelectedMinPrice)
-                    && (searchParams.SelectedMaxPrice == null || a.Price <= searchParams.SelectedMaxPrice)
-                    && (searchParams.SelectedRooms == null
-                        || (searchParams.SelectedRooms == 0 ? a.Rooms > 0 : a.Rooms == searchParams.SelectedRooms))
-                    && (searchParams.SelectedArea == null
-                        || searchParams.SelectedArea == 0
-                        ? a.Area > 0
-                        : a.Area >= (searchParams.SelectedArea - (searchParams.SelectedArea * DefaultMargin))
-                            && a.Area <= (searchParams.SelectedArea + (searchParams.SelectedArea * DefaultMargin))))
-                .ToList();
+        var result = Store.Where(a => (a.Price >= searchParams.SelectedMinPrice)
+                && (a.Price <= searchParams.SelectedMaxPrice)
+                && ((searchParams.SelectedRooms == 0 ? a.Rooms > 0 : a.Rooms == searchParams.SelectedRooms))
+                && (searchParams.SelectedArea == 0
+                    ? a.Area > 0
+                    : a.Area >= (searchParams.SelectedArea - (searchParams.SelectedArea * DefaultMargin))
+                        && a.Area <= (searchParams.SelectedArea + (searchParams.SelectedArea * DefaultMargin))))
+            .ToList();
 
-        Filtered = result;
+        return result;
     }
         
     public async Task<IList<ApartmentDto>> GetPopularApartments()
@@ -63,6 +61,17 @@ public class ApartmentsService
             .Take(DefaultPopularCount).ToList();
 
         return (popular is not null && popular.Count > 0) ? popular : Array.Empty<ApartmentDto>();
+    }
+
+    public Task<bool> SetFilter(SearchParams filter)
+    {
+        if (filter is null)
+        {
+            return Task.FromResult(false);
+        }
+        Filter = filter;
+        NotifyFilterChanged();
+        return Task.FromResult(true);
     }
 
     private async Task CheckStore()

@@ -31,7 +31,7 @@ public partial class SearchParametersComponent
         }
     }
 
-    private async Task SetSearchParameters()
+    private async Task FilterParameters()
     {
         await JsConsole.LogAsync("Search button clicked");
 
@@ -44,8 +44,8 @@ public partial class SearchParametersComponent
             InvestmentId = 0
         };
 
-        await this.ApartmentsService.FilterApartments(searchParams);
-        await JsConsole.LogAsync(ApartmentsService.Filtered.Count + " apartments filtered");
+        await this.ApartmentsService.SetFilter(searchParams);
+        await JsConsole.LogAsync("Apartments filtered");
     }
 
 }

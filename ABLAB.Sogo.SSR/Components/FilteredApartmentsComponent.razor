@@ -1,0 +1,54 @@
+﻿@using ABLAB.Sogo.Shared.Dtos
+@using ABLAB.Sogo.Shared.Services
+
+<div class="filter-list row">
+@if (FilteredApartments.Count > 0)
+{
+    foreach(var apartment in FilteredApartments.Take(TakeCount))
+    {
+        var imageUrl = $"{ApartmentsService.ApiBaseUrl}{apartment.ImageFile}";
+        <!-- Property Block -->
+        <div class="property-block @apartment.Status.Name col-lg-4 col-md-6 col-sm-12">
+            <div class="inner-box">
+                <div class="image-box">
+                    <figure class="image"><img src="@imageUrl" alt=""></figure>
+                    <span class="for">@apartment.Status.Name</span>
+                    <span class="featured">FEATURED</span>
+                    <ul class="info clearfix">
+                        <li><i class="la la-calendar-minus-o"></i>2 Years Ago</li>
+                    </ul>
+                </div>
+                <div class="lower-content">
+                    <ul class="tags">
+                        <li><a href="property-detail.html">Apartment</a>,</li>
+                        <li><a href="property-detail.html">Modern Villa</a></li>
+                    </ul>
+                    <div class="thumb"><img src="images/resource/thumb-3.jpg" alt=""></div>
+                    <h3><a href="property-detail.html">Modern Apartment in City Center</a></h3>
+                    <div class="lucation"><i class="la la-map-marker"></i> @apartment.Investment.Name</div>
+                    <ul class="property-info clearfix">
+                        <li><i class="flaticon-money"></i>PLN @apartment.Price</li>
+                        @if (apartment.Rooms > 1)
+                        {
+                            <li><i class="flaticon-bed"></i> @apartment.Rooms pokoje</li>
+                        }
+                        else
+                        {
+                            <li><i class="flaticon-bed"></i> @apartment.Rooms pokój</li>
+                        }
+                        @if (apartment.ParkingSlot == true)
+                        {
+                            <li><i class="flaticon-car"></i> Miejsce na auto</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>Ładowanie popularnych mieszkań...</p>
+}
+</div>
+<!--End Property Section Two -->
