@@ -16,11 +16,11 @@ public partial class SearchParametersComponent
     public decimal SelectedArea { get; set; }
     public decimal InvestmentId { get; set; }
 
-    public ApartmentsParams? ApartmentsParams { get; set; }
+    public ApartmentsParams ApartmentsParams { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        if (ApartmentsParams == null)
+        if (!ApartmentsParams.HasValue)
         {
             ApartmentsParams = await this.MenusService.GetMainFiltersAsync();
             SelectedMaxPrice = 0;
@@ -37,16 +37,15 @@ public partial class SearchParametersComponent
 
         var searchParams = new SearchParams
         {
-            SelectedMaxPrice = SelectedMaxPrice,
-            SelectedMinPrice = SelectedMinPrice,
-            SelectedRooms = SelectedRooms,
-            SelectedArea = SelectedArea,
+            SelectedMaxPrice = this.SelectedMaxPrice,
+            SelectedMinPrice = this.SelectedMinPrice,
+            SelectedRooms = this.SelectedRooms,
+            SelectedArea = this.SelectedArea,
             InvestmentId = 0
         };
 
         await this.ApartmentsService.FilterApartments(searchParams);
-        await JsConsole.LogAsync(ApartmentsService.ApartmentsFiltered.Count + "apartments filtered");
-
+        await JsConsole.LogAsync(ApartmentsService.Filtered.Count + " apartments filtered");
     }
 
 }

@@ -22,22 +22,16 @@
 </section>
 <!--End Property Search Section Two -->
 
-@code{
-    // [Inject] private JsConsole JsConsole { get; set; } = default!;
-    // [Inject] private MenusService MenusService { get; set; } = default!;
+<!-- Property Section Two -->
+<section class="property-section-two">
+ <div class="auto-container">
+  <div class="sec-title">
+   <span class="title">FIND NOW YOUR DREAM HOUSE</span>
+   <h2>About New Property</h2>
+ </div>
 
-    // public SearchParameters? SearchParameters { get; set; }
-
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     if (SearchParameters == null)
-    //     {
-    //         SearchParameters = await this.MenusService.GetMainFiltersAsync();
-    //     }
-    // }
-
-    // private async Task Search()
-    // {
-    //     await JsConsole.LogAsync("Search button clicked");
-    // }
-}
+  <div class="property-carousel owl-carousel owl-theme">
+            <ABLAB.Sogo.SSR.Components.PopularApartmentsComponent />
+  </div>
+ </div>
+</section>

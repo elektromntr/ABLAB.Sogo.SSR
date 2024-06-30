@@ -14,5 +14,10 @@ namespace ABLAB.Sogo.Shared.Services
         {
             await this.JsRuntime.InvokeVoidAsync("console.log", message);
         }
+
+        public async Task LogComponent(string name)
+        {
+            await LogAsync($"{name} initialized");
+        }
     }
 }

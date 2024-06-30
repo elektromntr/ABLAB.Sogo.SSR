@@ -14,4 +14,7 @@ public class ApartmentDto
     public DateTime FinaleDate { get; set; }
     public StatusDto Status { get; set; } = default!;
     public string Headlite { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public bool ParkingSlot { get; set; } = default!;
+    public int Counter { get; set; } = default!;
 }

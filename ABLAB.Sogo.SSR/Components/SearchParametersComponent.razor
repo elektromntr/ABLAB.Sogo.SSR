@@ -3,7 +3,7 @@
 
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
     <select class="custom-select-box" @bind="InvestmentId">
-        @if (ApartmentsParams?.Investments != null)
+        @if (ApartmentsParams is not null && ApartmentsParams.Investments != null)
         {
             <option selected value="0">Inwestycja</option>
             foreach (var item in ApartmentsParams.Investments)
@@ -21,8 +21,8 @@
             <option value="@ApartmentsParams.MaxPrice">@ApartmentsParams.MaxPrice</option>
             @{ 
                 List<decimal> prices = new List<decimal>();
-                decimal maxPrice = ApartmentsParams.MaxPrice.Value;
-                while (maxPrice > ApartmentsParams.MinPrice.Value)
+                decimal maxPrice = ApartmentsParams.MaxPrice;
+                while (maxPrice > ApartmentsParams.MinPrice)
                 {
                     maxPrice -= 100000;
                     prices.Add(maxPrice);
@@ -38,24 +38,21 @@
 <!-- Form Group minPrice-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
     <select class="custom-select-box" @bind="SelectedMinPrice">
-        @if (ApartmentsParams is not null
-        && ApartmentsParams.MinPrice is not null
-        && ApartmentsParams.MaxPrice is not null)
-        {
             <option selected value="0">Minimalna cena</option>
             <option value="@ApartmentsParams.MinPrice">@ApartmentsParams.MinPrice</option>
-            List<decimal> minPrices = new List<decimal>();
-            decimal minPrice = ApartmentsParams.MinPrice.Value;
-            while (minPrice < ApartmentsParams.MaxPrice.Value)
-            {
-                minPrice += 100000;
-                minPrices.Add(minPrice);
+            @{
+                List<decimal> minPrices = new List<decimal>();
+                decimal minPrice = ApartmentsParams.MinPrice;
+                while (minPrice < ApartmentsParams.MaxPrice)
+                {
+                    minPrice += 100000;
+                    minPrices.Add(minPrice);
+                }
+                foreach (var item in minPrices)
+                {
+                    <option value="@item">@item</option>
+                }
             }
-            foreach (var item in minPrices)
-            {
-                <option value="@item">@item</option>
-            }
-        }
     </select>
 </div>
 
@@ -63,15 +60,12 @@
 <!-- Form Group rooms-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
     <select class="custom-select-box" @bind="SelectedRooms">
-        @if (ApartmentsParams is not null
-        && ApartmentsParams.MinRooms is not null
-        && ApartmentsParams.MaxRooms is not null)
-        {
+        @{
             List<decimal> rooms = new List<decimal>();
             <option selected value="0">Ilość pokoi</option>
             <option value="@ApartmentsParams.MaxRooms">@ApartmentsParams.MaxRooms</option>
-            decimal maxRooms = ApartmentsParams.MaxRooms.Value;
-            while (maxRooms > ApartmentsParams.MinRooms.Value)
+            decimal maxRooms = ApartmentsParams.MaxRooms;
+            while (maxRooms > ApartmentsParams.MinRooms)
             {
                 maxRooms -= 1;
                 rooms.Add(maxRooms);
@@ -87,15 +81,12 @@
 <!-- Form Group area-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
     <select class="custom-select-box" @bind="SelectedArea">
-        @if (ApartmentsParams is not null
-        && ApartmentsParams.MinArea is not null
-        && ApartmentsParams.MaxArea is not null)
-        {
+        @{
             List<decimal> areas = new List<decimal>();
             <option selected value="0">Powierzchnia</option>
             <option value="@ApartmentsParams.MaxArea">około @ApartmentsParams.MaxArea m<sup>2</sup></option>
-            decimal maxArea = ApartmentsParams.MaxArea.Value;
-            while (maxArea > ApartmentsParams.MinArea.Value)
+            decimal maxArea = ApartmentsParams.MaxArea;
+            while (maxArea > ApartmentsParams.MinArea)
             {
                 maxArea -= decimal.Round(maxArea * 0.2m, 0, MidpointRounding.ToEven);
                 areas.Add(maxArea);
