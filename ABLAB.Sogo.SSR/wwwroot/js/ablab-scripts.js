@@ -21,3 +21,7 @@
         });
     }
 }
+
+function initializeFilteredApartmentsMixItUpGallery(containerSelector) {
+    var mixer = mixitup(containerSelector);
+}

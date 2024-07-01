@@ -2,6 +2,7 @@
 using ABLAB.Sogo.Shared.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Collections.Generic;
 
 namespace ABLAB.Sogo.SSR.Components;
 
@@ -31,14 +32,14 @@ public partial class FilteredApartmentsComponent
     private async void HandleFilterChanged()
     {
         FilteredApartments = await ApartmentsService.GetFilteredApartments(ApartmentsService.Filter);
-        StateHasChanged(); // Trigger a re-render
+        await InvokeAsync(StateHasChanged); // Trigger a re-render
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            //await JS.InvokeVoidAsync("initializePopularApartmentsComponentOwlCarousel");
+            //await JS.InvokeVoidAsync("initializeFilteredApartmentsMixItUpGallery", ".filter-list");
             await JsConsole.LogAsync("First render");
             await JsConsole.LogAsync("Filtered apartments count: " + FilteredApartments.Count);
         }

@@ -1,6 +1,5 @@
 ﻿using ABLAB.Sogo.Shared.Dtos;
 using ABLAB.Sogo.Shared.Extensions;
-using System.Collections.Generic;
 using System.Net.Http.Json;
 
 namespace ABLAB.Sogo.Shared.Services;
@@ -33,6 +32,7 @@ public class ApartmentsService
     public async Task<IList<ApartmentDto>> GetFilteredApartments(SearchParams searchParams)
     {
         await CheckStore();
+
         if (searchParams.SelectedMinPrice > searchParams.SelectedMaxPrice && searchParams.SelectedMaxPrice != 0)
         {
             searchParams.SelectedMinPrice = 0;
@@ -41,7 +41,10 @@ public class ApartmentsService
         {
             searchParams.SelectedMaxPrice = decimal.MaxValue;
         }
-        var result = Store.Where(a => (a.Price >= searchParams.SelectedMinPrice)
+        var result = Store.Where(a => (searchParams.InvestmentId == 0
+                ? a.Investment.Id > 0
+                : a.Investment.Id == searchParams.InvestmentId)
+                && (a.Price >= searchParams.SelectedMinPrice)
                 && (a.Price <= searchParams.SelectedMaxPrice)
                 && ((searchParams.SelectedRooms == 0 ? a.Rooms > 0 : a.Rooms == searchParams.SelectedRooms))
                 && (searchParams.SelectedArea == 0
@@ -52,11 +55,11 @@ public class ApartmentsService
 
         return result;
     }
-        
+
     public async Task<IList<ApartmentDto>> GetPopularApartments()
     {
         await CheckStore();
-        
+
         var popular = Store.OrderByDescending(a => a.Counter)
             .Take(DefaultPopularCount).ToList();
 
@@ -97,8 +100,8 @@ public class ApartmentsService
         {
             toStore = await _httpClient.GetFromJsonAsync<IList<ApartmentDto>>("search", CancellationToken.None);
         }
-        catch (Exception e) 
-        { 
+        catch (Exception e)
+        {
             Console.Error.WriteLine($"EXCEPTION; {e}");
         }
         if (toStore is not null && toStore.Count > 0)

@@ -8,12 +8,12 @@
     {
         var imageUrl = $"{ApartmentsService.ApiBaseUrl}{apartment.ImageFile}";
         <!-- Property Block -->
-        <div class="property-block @apartment.Status.Name col-lg-4 col-md-6 col-sm-12">
+        <div class="property-block all @apartment.Status.Name col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
                 <div class="image-box">
                     <figure class="image"><img src="@imageUrl" alt=""></figure>
                     <span class="for">@apartment.Status.Name</span>
-                    <span class="featured">FEATURED</span>
+                    @* <span class="featured">FEATURED</span> *@
                     <ul class="info clearfix">
                         <li><i class="la la-calendar-minus-o"></i>2 Years Ago</li>
                     </ul>
@@ -48,7 +48,7 @@
 }
 else
 {
-    <p>Ładowanie popularnych mieszkań...</p>
+        <p>Brak mieszkań dla zadanego filtra. <a href="#property-search-form">Zmień filtr</a></p>
 }
 </div>
 <!--End Property Section Two -->

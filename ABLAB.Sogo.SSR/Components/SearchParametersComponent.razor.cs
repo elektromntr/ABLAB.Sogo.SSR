@@ -14,7 +14,7 @@ public partial class SearchParametersComponent
     public decimal SelectedMinPrice { get; set; }
     public decimal SelectedRooms { get; set; }
     public decimal SelectedArea { get; set; }
-    public decimal InvestmentId { get; set; }
+    public int InvestmentId { get; set; }
 
     public ApartmentsParams ApartmentsParams { get; set; } = new();
 
@@ -41,7 +41,7 @@ public partial class SearchParametersComponent
             SelectedMinPrice = this.SelectedMinPrice,
             SelectedRooms = this.SelectedRooms,
             SelectedArea = this.SelectedArea,
-            InvestmentId = 0
+            InvestmentId = this.InvestmentId
         };
 
         await this.ApartmentsService.SetFilter(searchParams);
