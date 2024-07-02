@@ -10,7 +10,7 @@ public partial class PopularApartmentsComponent
 {
     [Inject] private JsConsole JsConsole { get; set; } = default!;
     [Inject] private IJSRuntime JS { get; set; } = default!;
-    [Inject] private ApartmentsService ApartmentsService { get; set; } = default!;
+    [Inject] private ApartmentsStore ApartmentsService { get; set; } = default!;
 
     public IList<ApartmentDto> PopularApartments { get; set; } = Array.Empty<ApartmentDto>();
 

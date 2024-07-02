@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 
 namespace ABLAB.Sogo.Shared.Services;
 
-public class ApartmentsService
+public class ApartmentsStore
 {
     public const string ApiBaseUrl = "http://localhost:56861";
     private const decimal DefaultMargin = 0.18m;
@@ -15,19 +15,14 @@ public class ApartmentsService
     private DateTime _lastUpdate;
 
     public IList<ApartmentDto> Store { get; set; } = Array.Empty<ApartmentDto>();
-    public SearchParams Filter { get; set; } = new();
 
-    public event Action FilterChanged;
-
-    public ApartmentsService()
+    public ApartmentsStore()
     {
         _httpClient = new HttpClient
         {
             BaseAddress = new Uri($"{ApiBaseUrl}/api/2/")
         };
     }
-
-    private void NotifyFilterChanged() => FilterChanged?.Invoke();
 
     public async Task<IList<ApartmentDto>> GetFilteredApartments(SearchParams searchParams)
     {
@@ -37,7 +32,11 @@ public class ApartmentsService
         {
             searchParams.SelectedMinPrice = 0;
         }
-        else if (searchParams.SelectedMaxPrice == searchParams.SelectedMinPrice && searchParams.SelectedMinPrice == 0)
+        else if (searchParams.SelectedMaxPrice == 0 && searchParams.SelectedMinPrice != 0)
+        {
+            searchParams.SelectedMaxPrice = decimal.MaxValue;
+        }
+        else if (searchParams.SelectedMaxPrice == 0 && searchParams.SelectedMinPrice == 0)
         {
             searchParams.SelectedMaxPrice = decimal.MaxValue;
         }
@@ -64,17 +63,6 @@ public class ApartmentsService
             .Take(DefaultPopularCount).ToList();
 
         return (popular is not null && popular.Count > 0) ? popular : Array.Empty<ApartmentDto>();
-    }
-
-    public Task<bool> SetFilter(SearchParams filter)
-    {
-        if (filter is null)
-        {
-            return Task.FromResult(false);
-        }
-        Filter = filter;
-        NotifyFilterChanged();
-        return Task.FromResult(true);
     }
 
     private async Task CheckStore()

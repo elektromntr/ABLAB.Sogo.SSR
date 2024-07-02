@@ -6,7 +6,7 @@
 {
     foreach(var apartment in FilteredApartments.Take(TakeCount))
     {
-        var imageUrl = $"{ApartmentsService.ApiBaseUrl}{apartment.ImageFile}";
+        var imageUrl = $"{ApartmentsStore.ApiBaseUrl}{apartment.ImageFile}";
         <!-- Property Block -->
         <div class="property-block all @apartment.Status.Name col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
@@ -50,5 +50,10 @@ else
 {
         <p>Brak mieszkań dla zadanego filtra. <a href="#property-search-form">Zmień filtr</a></p>
 }
+</div>
+
+<!-- Load More -->
+<div class="load-more-btn text-center">
+    <button class="theme-btn btn-style-two" @onclick="() => LoadMore()">Pokaż więcej mieszkań</button>
 </div>
 <!--End Property Section Two -->

@@ -18,10 +18,11 @@ namespace ABLAB.Sogo.SSR
             
             // Scoped
             builder.Services.AddScoped<JsConsole>();
+            builder.Services.AddScoped<EventsService>();
             
             // Singletons
             builder.Services.AddSingleton<WeatherForecastService>();
-            builder.Services.AddSingleton<ApartmentsService>();
+            builder.Services.AddSingleton<ApartmentsStore>();
             builder.Services.AddSingleton<MenusService>();
             
             var app = builder.Build();

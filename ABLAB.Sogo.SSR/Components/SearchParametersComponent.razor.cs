@@ -8,7 +8,8 @@ public partial class SearchParametersComponent
 {
     [Inject] private JsConsole JsConsole { get; set; } = default!;
     [Inject] private MenusService MenusService { get; set; } = default!;
-    [Inject] private ApartmentsService ApartmentsService { get; set; } = default!;
+    [Inject] private ApartmentsStore ApartmentsService { get; set; } = default!;
+    [Inject] private EventsService EventsService { get; set; } = default!;
 
     public decimal SelectedMaxPrice { get; set; }
     public decimal SelectedMinPrice { get; set; }
@@ -44,8 +45,7 @@ public partial class SearchParametersComponent
             InvestmentId = this.InvestmentId
         };
 
-        await this.ApartmentsService.SetFilter(searchParams);
-        await JsConsole.LogAsync("Apartments filtered");
+        // Call the event with searchParams as arguments
+        EventsService.OnFilterChanged(searchParams);
     }
-
 }
