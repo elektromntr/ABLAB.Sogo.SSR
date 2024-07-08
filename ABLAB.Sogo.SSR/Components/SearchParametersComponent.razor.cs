@@ -11,6 +11,9 @@ public partial class SearchParametersComponent
     [Inject] private ApartmentsStore ApartmentsService { get; set; } = default!;
     [Inject] private EventsService EventsService { get; set; } = default!;
 
+    protected const int DefaultPriceMargin = 100000;
+    protected const decimal DefaultMargin = 0.2m;
+
     public decimal SelectedMaxPrice { get; set; }
     public decimal SelectedMinPrice { get; set; }
     public decimal SelectedRooms { get; set; }

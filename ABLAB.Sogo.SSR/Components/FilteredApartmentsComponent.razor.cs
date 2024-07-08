@@ -8,6 +8,9 @@ namespace ABLAB.Sogo.SSR.Components;
 public partial class FilteredApartmentsComponent
 {
     private const int DefaultTakeCount = 6;
+
+    protected const string AvailableStatus = "Wolne";
+    protected const string ReservedStatus = "Rezerwacja";
     
     [Inject] private JsConsole JsConsole { get; set; } = default!;
     [Inject] private IJSRuntime JS { get; set; } = default!;
@@ -16,6 +19,7 @@ public partial class FilteredApartmentsComponent
 
     protected int TakeCount { get; set; } = DefaultTakeCount;
     protected SearchParams Filter { get; set; } = new();
+    protected string[] Statuses { get; set; } = Array.Empty<string>();
 
     public IList<ApartmentDto> FilteredApartments { get; set; } = Array.Empty<ApartmentDto>();
 
@@ -25,12 +29,29 @@ public partial class FilteredApartmentsComponent
         await InvokeAsync(StateHasChanged);
     }
 
+    protected void FilterStatus(string statusName)
+    {
+        Filter.StatusName = statusName;
+        HandleFilterChanged(Filter);
+    }
+
+    protected void GetStatuses()
+    {
+        var statuses = FilteredApartments
+            .Where(s => s.Status.Name != "Sprzedane")
+            .Select(a => a.Status.Name)
+            .Distinct()
+            .ToArray();
+        if (statuses.Length > 0) Statuses = statuses;
+    }
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
             EventsService.FilterChanged += HandleFilterChanged;
             FilteredApartments = await ApartmentsService.GetFilteredApartments(Filter);
+            GetStatuses();
         }
         catch (Exception e)
         {
@@ -58,6 +79,7 @@ public partial class FilteredApartmentsComponent
         Filter = filter;
         TakeCount = DefaultTakeCount;
         FilteredApartments = await ApartmentsService.GetFilteredApartments(filter);
+        //GetStatuses();
         await InvokeAsync(StateHasChanged); // Trigger a re-render
     }
 }

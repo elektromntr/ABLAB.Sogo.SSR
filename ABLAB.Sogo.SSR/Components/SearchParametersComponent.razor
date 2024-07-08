@@ -17,14 +17,14 @@
 <!-- Form Group maxPrice-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
     <select class="custom-select-box" @bind="SelectedMaxPrice">
-            <option selected value="0">Maksymalna cena</option>
+            <option selected value="0">Max cena</option>
             <option value="@ApartmentsParams.MaxPrice">@ApartmentsParams.MaxPrice</option>
             @{ 
                 List<decimal> prices = new List<decimal>();
                 decimal maxPrice = ApartmentsParams.MaxPrice;
                 while (maxPrice > ApartmentsParams.MinPrice)
                 {
-                    maxPrice -= 100000;
+                    maxPrice -= DefaultPriceMargin;
                     prices.Add(maxPrice);
                 }
                 foreach (var item in prices)
@@ -38,14 +38,14 @@
 <!-- Form Group minPrice-->
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
     <select class="custom-select-box" @bind="SelectedMinPrice">
-            <option selected value="0">Minimalna cena</option>
+            <option selected value="0">Min cena</option>
             <option value="@ApartmentsParams.MinPrice">@ApartmentsParams.MinPrice</option>
             @{
                 List<decimal> minPrices = new List<decimal>();
                 decimal minPrice = ApartmentsParams.MinPrice;
                 while (minPrice < ApartmentsParams.MaxPrice)
                 {
-                    minPrice += 100000;
+                    minPrice += DefaultPriceMargin;
                     minPrices.Add(minPrice);
                 }
                 foreach (var item in minPrices)
@@ -88,7 +88,7 @@
             decimal maxArea = ApartmentsParams.MaxArea;
             while (maxArea > ApartmentsParams.MinArea)
             {
-                maxArea -= decimal.Round(maxArea * 0.2m, 0, MidpointRounding.ToEven);
+                maxArea -= decimal.Round(maxArea * DefaultMargin, 0, MidpointRounding.ToEven);
                 areas.Add(maxArea);
             }
             foreach (var item in areas)

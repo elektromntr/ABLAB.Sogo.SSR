@@ -43,6 +43,9 @@ public class ApartmentsStore
         var result = Store.Where(a => (searchParams.InvestmentId == 0
                 ? a.Investment.Id > 0
                 : a.Investment.Id == searchParams.InvestmentId)
+                && (string.IsNullOrEmpty(searchParams.StatusName)
+                    ? a.Status.Name != string.Empty
+                    : a.Status.Name == searchParams.StatusName)
                 && (a.Price >= searchParams.SelectedMinPrice)
                 && (a.Price <= searchParams.SelectedMaxPrice)
                 && ((searchParams.SelectedRooms == 0 ? a.Rooms > 0 : a.Rooms == searchParams.SelectedRooms))
@@ -50,6 +53,7 @@ public class ApartmentsStore
                     ? a.Area > 0
                     : a.Area >= (searchParams.SelectedArea - (searchParams.SelectedArea * DefaultMargin))
                         && a.Area <= (searchParams.SelectedArea + (searchParams.SelectedArea * DefaultMargin))))
+            .OrderByDescending(a => a.Counter)
             .ToList();
 
         return result;

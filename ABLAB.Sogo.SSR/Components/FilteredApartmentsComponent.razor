@@ -1,6 +1,25 @@
 ﻿@using ABLAB.Sogo.Shared.Dtos
 @using ABLAB.Sogo.Shared.Services
+@using System.Globalization
 
+<div class="upper-box clearfix">
+    <div class="sec-title">
+        <span class="title">ZNAJDŹ NIERUCHOMOŚCI WG FILTRA</span>
+        <h2>WYBRANE NIERUCHOMOŚCI</h2>
+    </div>
+
+    <!--Filter-->
+    <div class="filters">
+        <ul class="filter-tabs filter-btns clearfix">
+            <li clss"filter"><a href="#property-search-form">Zmień filtr</a></li>
+            <li class="filter" @onclick="() => FilterStatus(string.Empty)">Wszystkie</li>
+            @foreach (var status in Statuses)
+            {
+                <li class="filter" @onclick="() => FilterStatus(status)">@status</li>
+            }
+        </ul>
+    </div>
+</div>
 <div class="filter-list row">
 @if (FilteredApartments.Count > 0)
 {
@@ -13,21 +32,25 @@
                 <div class="image-box">
                     <figure class="image"><img src="@imageUrl" alt=""></figure>
                     <span class="for">@apartment.Status.Name</span>
-                    @* <span class="featured">FEATURED</span> *@
+                        @if (!string.IsNullOrEmpty(apartment.Headlite))
+                        {
+                            <span class="featured">@apartment.Headlite</span>
+                        }
                     <ul class="info clearfix">
-                        <li><i class="la la-calendar-minus-o"></i>2 Years Ago</li>
+                            <li><i class="la la-calendar-minus-o"></i>@($"Termin realizaci: {apartment.FinaleDate.ToString("yyyy-MM")}")</li>
                     </ul>
                 </div>
                 <div class="lower-content">
                     <ul class="tags">
-                        <li><a href="property-detail.html">Apartment</a>,</li>
-                        <li><a href="property-detail.html">Modern Villa</a></li>
+                        <li><a href="property-detail.html">tag1</a>,</li>
+                        <li><a href="property-detail.html">tag2</a></li>
                     </ul>
                     <div class="thumb"><img src="images/resource/thumb-3.jpg" alt=""></div>
-                    <h3><a href="property-detail.html">Modern Apartment in City Center</a></h3>
+                    <h3><a href="property-detail.html">@apartment.Symbol</a></h3>
                     <div class="lucation"><i class="la la-map-marker"></i> @apartment.Investment.Name</div>
                     <ul class="property-info clearfix">
-                        <li><i class="flaticon-money"></i>PLN @apartment.Price</li>
+                        <li><i class="flaticon-money"></i>@apartment.Price.ToString("C0", new CultureInfo("pl-PL"))</li>
+                        <li><i class="flaticon-dimension"></i>@apartment.Area m<sup>2</sup></li>
                         @if (apartment.Rooms > 1)
                         {
                             <li><i class="flaticon-bed"></i> @apartment.Rooms pokoje</li>
@@ -40,6 +63,7 @@
                         {
                             <li><i class="flaticon-car"></i> Miejsce na auto</li>
                         }
+                        <li>@apartment.Headlite</li>
                     </ul>
                 </div>
             </div>
@@ -54,6 +78,9 @@ else
 
 <!-- Load More -->
 <div class="load-more-btn text-center">
-    <button class="theme-btn btn-style-two" @onclick="() => LoadMore()">Pokaż więcej mieszkań</button>
+    @if (FilteredApartments.Count > TakeCount)
+    {
+        <button class="theme-btn btn-style-two" @onclick="() => LoadMore()">Pokaż więcej mieszkań</button>
+    }
 </div>
 <!--End Property Section Two -->

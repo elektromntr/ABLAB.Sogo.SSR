@@ -7,4 +7,5 @@ public class SearchParams
     public decimal SelectedRooms { get; set; }
     public decimal SelectedArea { get; set; }
     public int InvestmentId { get; set; }
+    public string StatusName { get; set; } = string.Empty;
 }
