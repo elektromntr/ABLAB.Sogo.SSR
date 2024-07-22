@@ -1,4 +1,5 @@
 ﻿@using ABLAB.Sogo.Shared.Dtos
+@using ABLAB.Sogo.Shared.Extensions
 @using ABLAB.Sogo.Shared.Services
 
 <div class="form-group col-lg-2 col-md-6 col-sm-12">
@@ -84,7 +85,7 @@
         @{
             List<decimal> areas = new List<decimal>();
             <option selected value="0">Powierzchnia</option>
-            <option value="@ApartmentsParams.MaxArea">około @ApartmentsParams.MaxArea m<sup>2</sup></option>
+            <option value="@ApartmentsParams.MaxArea">około @ApartmentsParams.MaxArea.SqrMeters()</option>
             decimal maxArea = ApartmentsParams.MaxArea;
             while (maxArea > ApartmentsParams.MinArea)
             {
@@ -93,7 +94,7 @@
             }
             foreach (var item in areas)
             {
-                <option value="@item">około @item m<sup>2</sup></option>
+                <option value="@item">około @item.SqrMeters()</option>
             }
         }
     </select>

@@ -2,7 +2,6 @@
 using ABLAB.Sogo.Shared.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Data;
 
 namespace ABLAB.Sogo.SSR.Components;
 
@@ -22,7 +21,7 @@ public partial class PopularApartmentsComponent
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine($"EXCEPTION; {e}"); 
+            Console.Error.WriteLine($"EXCEPTION; {e}");
         }
     }
 

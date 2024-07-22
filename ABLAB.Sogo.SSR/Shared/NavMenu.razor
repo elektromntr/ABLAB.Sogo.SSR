@@ -1,4 +1,7 @@
-﻿<!-- Main Header-->
+﻿@using ABLAB.Sogo.SSR.Components;
+@using ABLAB.Sogo.SSR.Services
+
+<!-- Main Header-->
 <header class="main-header header-style">
     <!--Header Top-->
     <div class="header-top">
@@ -6,8 +9,9 @@
             <div class="inner-container clearfix">
                 <div class="top-left">
                     <ul class="contact-list clearfix">
-                        <li><i class="la la-home"></i> 121, King St, VIC 3000, New York.</li>
-                        <li><i class="la la-envelope-o"></i><a href="mailto:info@example.com">info@example.com</a></li>
+                        <li><i class="la la-home"></i> Wróblowice, ul. Bolesława Krzywoustego 1/1</li>
+                        <li><i class="la la-home"></i> Smolec, ul. Kasztanowa 33/1</li>
+                        <li><i class="la la-envelope-o"></i><a href="mailto:sprzedaz@osiedla-sogo.pl">sprzedaz@osiedla-sogo.pl</a></li>
                     </ul>
                 </div>
                 <div class="top-right">
@@ -16,9 +20,7 @@
                     <ul class="social-icon-three clearfix">
                         <li><a href="#"><i class="la la-instagram"></i></a></li>
                         <li><a href="#"><i class="la la-twitter"></i></a></li>
-                        <li><a href="#"><i class="la la-google-plus"></i></a></li>
-                        <li><a href="#"><i class="la la-github"></i></a></li>
-                        <li><a href="#"><i class="la la-pinterest"></i></a></li>
+                        <li><a href="#"><i class="la la-youtube"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -31,7 +33,7 @@
             <div class="main-box">
                 <div class="inner-container clearfix">
                     <div class="logo-box">
-                        <div class="logo"><a href="index.html"><img src="images/logo.png" alt="" title=""></a></div>
+                        <div class="logo"><a @onclick="() => NavManager.NavigateHome()"><img src="images/logo.png" alt="" title=""></a></div>
                     </div>
 
                     <div class="nav-outer clearfix">
@@ -46,13 +48,9 @@
 
                             <div class="collapse navbar-collapse clearfix" id="navbarSupportedContent">
                                 <ul class="navigation clearfix">
-                                    <li class="dropdown current">
-                                        <a href="#">Home</a>
-                                        <ul>
-                                            <li><a href="index.html">Home Page 1</a></li>
-                                            <li><a href="index-2.html">Home Page 2</a></li>
-                                            <li><a href="index-3.html">Home Page 3</a></li>
-                                        </ul>
+                                    <li class="dropdown">
+                                        <a href="#">Inwestycje</a>
+                                        <InvestmentsComponent />
                                     </li>
                                     <li><a href="about.html">About</a></li>
                                     <li class="dropdown">
@@ -120,7 +118,7 @@
                     <div class="navbar-collapse show collapse clearfix">
                         <ul class="navigation clearfix">
                             <li class="dropdown current">
-                                <a href="index.html">Home</a>
+                                <a @onclick="() => NavManager.NavigateHome()">Home</a>
                                 <ul>
                                     <li><a href="index.html">Home Page 1</a></li>
                                     <li><a href="index-2.html">Home Page 2</a></li>
@@ -172,3 +170,7 @@
     </div><!-- End Sticky Menu -->
 </header>
 <!--End Main Header -->
+
+@code{
+    [Inject] NavigationService NavManager { get; set; } = default!;
+}

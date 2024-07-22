@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using ABLAB.Sogo.Shared.Dtos
 @using ABLAB.Sogo.Shared.Services
+@using ABLAB.Sogo.SSR.Components
 
 <!-- Property Search Section Two -->
 <section class="property-search-section-two" style="background-image: url(images/background/banner-01.jpg);">
@@ -13,7 +14,7 @@
             <div class="property-search-form style-two">
                 @* <form method="post" action="#"> *@
                     <div class="row no-gutters">
-                        <ABLAB.Sogo.SSR.Components.SearchParametersComponent />
+                        <SearchParametersComponent />
                     </div>
                 @* </form> *@
             </div>
@@ -31,7 +32,7 @@
  </div>
 
   <div class="property-carousel owl-carousel owl-theme">
-            <ABLAB.Sogo.SSR.Components.PopularApartmentsComponent />
+            <PopularApartmentsComponent />
   </div>
  </div>
 </section>
@@ -43,7 +44,7 @@
         <!--MixitUp Galery-->
         <div class="mixitup-gallery">
             
-            <ABLAB.Sogo.SSR.Components.FilteredApartmentsComponent />
+            <FilteredApartmentsComponent />
         </div>
     </div>
 </section>

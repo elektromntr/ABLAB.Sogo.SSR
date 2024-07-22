@@ -1,5 +1,6 @@
 ﻿using ABLAB.Sogo.Shared.Dtos;
 using ABLAB.Sogo.Shared.Services;
+using ABLAB.Sogo.SSR.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -9,19 +10,19 @@ public partial class FilteredApartmentsComponent
 {
     private const int DefaultTakeCount = 6;
 
-    protected const string AvailableStatus = "Wolne";
-    protected const string ReservedStatus = "Rezerwacja";
-    
     [Inject] private JsConsole JsConsole { get; set; } = default!;
     [Inject] private IJSRuntime JS { get; set; } = default!;
     [Inject] private ApartmentsStore ApartmentsService { get; set; } = default!;
     [Inject] private EventsService EventsService { get; set; } = default!;
+    [Inject] private NavigationService NavManager { get; set; } = default!;
 
     protected int TakeCount { get; set; } = DefaultTakeCount;
     protected SearchParams Filter { get; set; } = new();
     protected string[] Statuses { get; set; } = Array.Empty<string>();
 
+
     public IList<ApartmentDto> FilteredApartments { get; set; } = Array.Empty<ApartmentDto>();
+
 
     protected async Task LoadMore()
     {
@@ -72,6 +73,8 @@ public partial class FilteredApartmentsComponent
             await JsConsole.LogAsync("Filtered apartments count: " + FilteredApartments.Count);
         }
     }
+    
+    
 
     private async void HandleFilterChanged(SearchParams filter)
     {

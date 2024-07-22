@@ -6,26 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="wwwroot\js\ablab-scripts.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\js\ablab-scripts.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\js\ablab-scripts.js" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ABLAB.Sogo.Shared\ABLAB.Sogo.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="Components\PopularApartmentsComponent.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-  </ItemGroup>
+  
 
+  
 </Project>

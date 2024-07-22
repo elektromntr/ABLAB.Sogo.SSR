@@ -1,0 +1,177 @@
+﻿@page "/apartment/{id:int}"
+
+@using ABLAB.Sogo.SSR.Services
+@using ABLAB.Sogo.Shared.Extensions
+@using ABLAB.Sogo.Shared.Services
+
+<!--Page Title-->
+<section class="page-title" style="background-image:url(/images/background/7.jpg);">
+    <div class="auto-container">
+        <div class="inner-container clearfix">
+            <h1>Property Detail</h1>
+            <ul class="bread-crumb clearfix">
+                <li><a @onclick="() => NavManager.NavigateHome()">Home</a></li>
+                <li>Szczegóły nieruchomości</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+
+@if(Apartment.IsFetched) {
+    var imageUrl = $"{ApartmentsStore.ApiBaseUrl}{Apartment.ImageFile}";
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="upper-info-box">
+            <div class="row">
+                <div class="about-property col-lg-8 col-md-12 col-sm-12">
+                    <h2>@Apartment.Symbol</h2>
+                        <div class="location"><i class="la la-map-marker"></i> 
+                            <a @onclick="() => NavManager.NavigateToInvestment(Apartment.Investment.Id)">
+                                @Apartment.Investment.Name
+                            </a>
+                        </div>
+                    <ul class="property-info clearfix">
+                        <li><i class="flaticon-dimension"></i> @Apartment.Area.SqrMeters()</li>
+                        @if (Apartment.Rooms > 1)
+                        {
+                            <li><i class="flaticon-bed"></i> @Apartment.Rooms pokoje</li>
+                        }
+                        else
+                        {
+                            <li><i class="flaticon-bed"></i> @Apartment.Rooms pokój</li>
+                        }
+                        @if (Apartment.ParkingSlot == true)
+                        {
+                            <li><i class="flaticon-car"></i> Miejsce na auto</li>
+                        }
+                    </ul>
+                </div>
+                <div class="price-column col-lg-4 col-md-12 col-sm-12">
+                    <span class="title">Cena</span>
+                    <div class="price">@Apartment.Price.ToZlotys()</div>
+                    <span class="status">@Apartment.Status</span>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <!--Content Side-->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="property-detail">
+                    <div class="upper-box">
+                        <div class="carousel-outer">
+                            <ul class="image-carousel owl-carousel owl-theme">
+                                <li><img src="/images/resource/property-detail.jpg" alt=""></li>
+                                <li><img src="/images/resource/property-detail-2.jpg" alt=""></li>
+                                <li><img src="/images/resource/property-detail-3.jpg" alt=""></li>
+                                <li><img src="/images/resource/property-detail-4.jpg" alt=""></li>
+                                <li><img src="/images/resource/property-detail-5.jpg" alt=""></li>
+                            </ul>
+                            
+                            <ul class="thumbs-carousel owl-carousel owl-theme">
+                                <li><img src="/images/resource/property-thumb-9.jpg" alt=""></li>
+                                <li><img src="/images/resource/property-thumb-5.jpg" alt=""></li>
+                                <li><img src="/images/resource/property-thumb-8.jpg" alt=""></li>
+                                <li><img src="/images/resource/property-thumb-7.jpg" alt=""></li>
+                                <li><img src="/images/resource/property-thumb-6.jpg" alt=""></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="lower-content">
+                        @if(Apartment.Investment.Descriptions.Count > 0)
+                        {
+                            for (var i = 0; i < Apartment.Investment.Descriptions.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <h4>@Apartment.Investment.Descriptions[i].Header</h4>
+                                    <p>@(new MarkupString(Apartment.Investment.Descriptions[i].Content))</p>
+                                }
+                                else if (i == 1){
+                                    <blockquote>@(new MarkupString(Apartment.Investment.Descriptions[i].Content))</blockquote>
+                                }
+                                else
+                                {
+                                    <p>@(new MarkupString(Apartment.Investment.Descriptions[i].Content))</p>
+                                }
+                            }
+                        }
+                    </div>
+
+                    <!-- Property Features -->
+                    <div class="property-features">
+                        <h4>Informacje</h4>
+                        <ul class="list-style-one">
+                            <li>Symbol nieruchomości: @Apartment.Symbol</li>
+                            <li>Inwestycja: 
+                                <a @onclick="() => NavManager.NavigateToInvestment(Apartment.Investment.Id)">
+                                    @Apartment.Investment.Name
+                                </a>
+                            </li>
+                            <li>Cena: @Apartment.Price.ToZlotys()</li>
+                            <li>Status: @Apartment.Status</li>
+                            <li>Termin realizacji: @Apartment.FinaleDate.ToString("yyyy-MM-dd")</li>
+                        </ul>
+                    </div>
+
+                    <!-- Property Features -->
+                    <div class="property-features">
+                        <h4>Atrybuty</h4>
+                        <ul class="list-style-one">
+                            <li>Powierzchnia: @Apartment.Area.SqrMeters()</li>
+                            @if (@Apartment.Garden > 0)
+                            {
+                                <li>Ogród: @Apartment.Garden.SqrMeters()</li>
+                            }
+                            @if (@Apartment.Entresol > 0)
+                            {
+                                <li>Ogród: @Apartment.Entresol.SqrMeters()</li>
+                            }
+                            @if (@Apartment.Garage > 0)
+                            {
+                                <li>Ogród: @Apartment.Garage.SqrMeters()</li>
+                            }
+                            @if (@Apartment.ParkingSlot == true)
+                            {
+                                <li>Miejsce postojowe</li>
+                            }
+                            @if (@Apartment.Storage == true)
+                            {
+                                <li>Komórka lokatorska</li>
+                            }
+                            <li>Poziom: @Apartment.Level</li>
+                        </ul>
+                    </div>
+
+                        <!-- Flooring Tabs -->
+                        <div class="flooring-tabs tabs-box">
+                            <div class="clearfix">
+                                <h4>Wizualizacje</h4>
+                                <ul class="tab-buttons">
+                                    <li data-tab="#scheme" class="tab-btn active-btn">Plan</li>
+                                    <li data-tab="#building" class="tab-btn">Budynek</li>
+                                </ul>
+                            </div>
+                            <div class="tabs-content">
+                                <!--Tab / Active Tab-->
+                                <div class="tab active-tab" id="scheme">
+                                    <div class="floor-image">
+                                        <figure class="image"><img src="@imageUrl" alt=""></figure>
+                                    </div>
+                                </div>
+
+                                <!--Tab -->
+                                <div class="tab" id="building">
+                                    <div class="floor-image">
+                                        <figure class="image"><img src="https://osiedla-sogo.pl/Galerie/Galeria16/Finall_001pp.jpg" alt=""></figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

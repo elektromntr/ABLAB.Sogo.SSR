@@ -1,4 +1,6 @@
-﻿@using ABLAB.Sogo.Shared.Dtos
+﻿@using ABLAB.Sogo.SSR.Services
+@using ABLAB.Sogo.Shared.Dtos
+@using ABLAB.Sogo.Shared.Extensions
 @using ABLAB.Sogo.Shared.Services
 @using System.Globalization
 
@@ -46,11 +48,11 @@
                         <li><a href="property-detail.html">tag2</a></li>
                     </ul>
                     <div class="thumb"><img src="images/resource/thumb-3.jpg" alt=""></div>
-                    <h3><a href="property-detail.html">@apartment.Symbol</a></h3>
+                        <h3><a @onclick="() => NavManager.NavigateToApartment(apartment.Id)">@apartment.Symbol</a></h3>
                     <div class="lucation"><i class="la la-map-marker"></i> @apartment.Investment.Name</div>
                     <ul class="property-info clearfix">
                         <li><i class="flaticon-money"></i>@apartment.Price.ToString("C0", new CultureInfo("pl-PL"))</li>
-                        <li><i class="flaticon-dimension"></i>@apartment.Area m<sup>2</sup></li>
+                        <li><i class="flaticon-dimension"></i>@apartment.Area.SqrMeters()</li>
                         @if (apartment.Rooms > 1)
                         {
                             <li><i class="flaticon-bed"></i> @apartment.Rooms pokoje</li>
@@ -63,7 +65,6 @@
                         {
                             <li><i class="flaticon-car"></i> Miejsce na auto</li>
                         }
-                        <li>@apartment.Headlite</li>
                     </ul>
                 </div>
             </div>

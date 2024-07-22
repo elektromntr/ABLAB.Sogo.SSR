@@ -1,7 +1,10 @@
+using ABLAB.Sogo.Shared.Configuration;
 using ABLAB.Sogo.Shared.Services;
 using ABLAB.Sogo.SSR.Data;
+using ABLAB.Sogo.SSR.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Configuration;
 
 namespace ABLAB.Sogo.SSR
 {
@@ -15,16 +18,20 @@ namespace ABLAB.Sogo.SSR
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
 
-            
             // Scoped
             builder.Services.AddScoped<JsConsole>();
             builder.Services.AddScoped<EventsService>();
-            
+            builder.Services.AddScoped<ApartmentsDetailsService>();
+            builder.Services.AddScoped<NavigationService>();
+
             // Singletons
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddSingleton<ApartmentsStore>();
             builder.Services.AddSingleton<MenusService>();
-            
+
+            // Add IOptions<ApiUrls> registration
+            builder.Services.Configure<ApiUrls>(builder.Configuration.GetSection("ApiUrls"));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,26 +1,34 @@
-﻿using ABLAB.Sogo.Shared.Dtos;
+﻿using ABLAB.Sogo.Shared.Configuration;
+using ABLAB.Sogo.Shared.Dtos;
 using ABLAB.Sogo.Shared.Extensions;
+using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 
 namespace ABLAB.Sogo.Shared.Services;
 
 public class ApartmentsStore
 {
-    public const string ApiBaseUrl = "http://localhost:56861";
     private const decimal DefaultMargin = 0.18m;
     private const int DefaultPopularCount = 3;
     private const double DefaultCacheHours = 0.25;
+    
+    private static readonly SemaphoreSlim _semaphore = new(1, 1);
+    
     private readonly HttpClient _httpClient;
-
+    private readonly IOptions<ApiUrls> _apiUrls = default!;
+    
     private DateTime _lastUpdate;
 
     public IList<ApartmentDto> Store { get; set; } = Array.Empty<ApartmentDto>();
+    public static string ApiBaseUrl { get; set; }
 
-    public ApartmentsStore()
+    public ApartmentsStore(IOptions<ApiUrls> apiUrls)
     {
+        _apiUrls = apiUrls;
+        ApiBaseUrl = _apiUrls.Value.BaseUrl;
         _httpClient = new HttpClient
         {
-            BaseAddress = new Uri($"{ApiBaseUrl}/api/2/")
+            BaseAddress = new Uri($"{_apiUrls.Value.BaseUrl}/api/2/")
         };
     }
 
@@ -69,19 +77,34 @@ public class ApartmentsStore
         return (popular is not null && popular.Count > 0) ? popular : Array.Empty<ApartmentDto>();
     }
 
+    public async Task<IList<InvestmentDto>> GetInvestments()
+    {
+        await CheckStore();
+        var result = Store.Select(a => a.Investment).DistinctBy(d => d.Id).ToList();
+        return result;
+    }
+
     private async Task CheckStore()
     {
-        if (Store is null || Store.Count == 0)
+        await _semaphore.WaitAsync();
+        try
         {
-            await FetchApartments();
             if (Store is null || Store.Count == 0)
             {
-                throw new Exception("Fetching data for Store failed");
+                await FetchApartments();
+                if (Store is null || Store.Count == 0)
+                {
+                    throw new Exception("Fetching data for Store failed");
+                }
+            }
+            if (CacheHelper.CacheOutOfDate(_lastUpdate, TimeSpan.FromHours(DefaultCacheHours)))
+            {
+                await FetchApartments();
             }
         }
-        if (CacheHelper.CacheOutOfDate(_lastUpdate, TimeSpan.FromHours(DefaultCacheHours)))
+        finally
         {
-            await FetchApartments();
+            _semaphore.Release();
         }
     }
 
