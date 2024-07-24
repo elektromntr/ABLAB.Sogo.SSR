@@ -28,6 +28,7 @@ namespace ABLAB.Sogo.SSR
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddSingleton<ApartmentsStore>();
             builder.Services.AddSingleton<MenusService>();
+            builder.Services.AddSingleton<OfficesService>();
 
             // Add IOptions<ApiUrls> registration
             builder.Services.Configure<ApiUrls>(builder.Configuration.GetSection("ApiUrls"));

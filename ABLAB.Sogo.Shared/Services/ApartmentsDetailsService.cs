@@ -11,14 +11,17 @@ namespace ABLAB.Sogo.Shared.Services;
 public class ApartmentsDetailsService
 {
     private readonly HttpClient _httpClient;
-    private readonly IOptions<ApiUrls> _apiUrls = default!;
+    private readonly IOptions<ApiUrls> _apiUrls;
+    private readonly OfficesService _officesService;
 
     public List<ApartmentDetailsDto> Store { get; set; } = new();
     public static string ApiBaseUrl { get; set; } = default!;
 
-    public ApartmentsDetailsService(IOptions<ApiUrls> apiUrls)
+    public ApartmentsDetailsService(IOptions<ApiUrls> apiUrls,
+        OfficesService officesService)
     {
         _apiUrls = apiUrls;
+        _officesService = officesService;
         ApiBaseUrl = _apiUrls.Value.BaseUrl;
         _httpClient = new HttpClient
         {
@@ -54,6 +57,7 @@ public class ApartmentsDetailsService
             if (apartment is not null)
             {
                 apartment.LastUpdate = DateTime.Now;
+                apartment.Investment.Office = _officesService.GetOffice(apartment.Investment.Id);
                 Store.Add(apartment);
             }
         }
