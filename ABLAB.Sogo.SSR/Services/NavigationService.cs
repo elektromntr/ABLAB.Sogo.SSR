@@ -18,11 +18,22 @@ public class NavigationService
 
     public void NavigateToInvestment(int investmentId)
     {
-        _navManager.NavigateTo($"/investment/{investmentId}");
+        /* not ready yet
+         * _navManager.NavigateTo($"/investment/{investmentId}");
+         */
+        NavigateHome();
     }
 
     public void NavigateHome()
     {
         _navManager.NavigateTo("/", true);
+    }
+
+    public void NavigateToContact()
+    {
+        /* not ready yet
+         * _navManager.NavigateTo("/contact");
+         */
+        NavigateHome();
     }
 }

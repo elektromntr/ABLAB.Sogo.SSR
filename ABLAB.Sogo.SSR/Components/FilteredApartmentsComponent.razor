@@ -28,6 +28,7 @@
     foreach(var apartment in FilteredApartments.Take(TakeCount))
     {
         var imageUrl = $"{ApartmentsStore.ApiBaseUrl}{apartment.ImageFile}";
+        var thumbUrl = $"/images/logos/{GetInvestmentThumb(apartment.Id)}";
         <!-- Property Block -->
         <div class="property-block all @apartment.Status.Name col-lg-4 col-md-6 col-sm-12">
             <div class="inner-box">
@@ -47,7 +48,7 @@
                         <li><a href="property-detail.html">tag1</a>,</li>
                         <li><a href="property-detail.html">tag2</a></li>
                     </ul>
-                    <div class="thumb"><img src="images/resource/thumb-3.jpg" alt=""></div>
+                    <div class="thumb"><img src="@thumbUrl" alt=""></div>
                         <h3><a @onclick="() => NavManager.NavigateToApartment(apartment.Id)">@apartment.Symbol</a></h3>
                     <div class="lucation"><i class="la la-map-marker"></i> @apartment.Investment.Name</div>
                     <ul class="property-info clearfix">

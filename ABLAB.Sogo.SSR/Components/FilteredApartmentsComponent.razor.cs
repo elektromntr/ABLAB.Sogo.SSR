@@ -46,6 +46,11 @@ public partial class FilteredApartmentsComponent
         if (statuses.Length > 0) Statuses = statuses;
     }
 
+    protected string GetInvestmentThumb(int investmentId)
+    {
+        return "logoSogo-thumb.png";
+    }
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -73,8 +78,7 @@ public partial class FilteredApartmentsComponent
             await JsConsole.LogAsync("Filtered apartments count: " + FilteredApartments.Count);
         }
     }
-    
-    
+
 
     private async void HandleFilterChanged(SearchParams filter)
     {
