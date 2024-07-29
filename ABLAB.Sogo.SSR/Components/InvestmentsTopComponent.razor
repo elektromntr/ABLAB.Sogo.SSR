@@ -1,0 +1,46 @@
+﻿@using ABLAB.Sogo.SSR.Services
+@using ABLAB.Sogo.Shared.Dtos
+@using ABLAB.Sogo.Shared.Extensions
+@using ABLAB.Sogo.Shared.Services
+
+@if(TopApartments.Length > 0)
+{
+    var maxCounter = TopApartments.Max(t => t.Counter);
+    foreach (var topApartment in TopApartments)
+    {
+        var imageUrl = $"{ApartmentsStore.ApiBaseUrl}{topApartment.ImageFile}";
+        var apartmentUrl = $"/apartment/{topApartment.Id}";
+        <!-- Post -->
+        <article class="post">
+            <div class="post-thumb">
+                <a href="@apartmentUrl">
+                    <img src="@imageUrl" alt="">
+                    @if(maxCounter == topApartment.Counter)
+                    {
+                        <span class="status">Hot</span>
+                    }
+                </a>
+            </div>
+            <span class="location">@topApartment.Investment.Name</span>
+            <h3><a href="@apartmentUrl">@topApartment.Symbol</a></h3>
+            <div class="area"><i class="flaticon-dimension"></i> @topApartment.Area.SqrMeters()</div>
+            <div class="price"><i class="flaticon-money"></i> @topApartment.Price.ToZlotys()</div>
+            <div class="rooms"><i class="flaticon-bed"></i> @topApartment.Rooms.ToRooms()</div>
+        </article>
+    }
+}
+
+@code {
+    [Inject]
+    private ApartmentsDetailsService ApartmentsDetailsService { get; set; } = default!;
+
+    [Parameter]
+    public int InvestmentId { get; set; }
+
+    protected ApartmentDto[] TopApartments { get; set; } = Array.Empty<ApartmentDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        TopApartments = await ApartmentsDetailsService.GetTopApartments(InvestmentId);
+    }
+}

@@ -13,7 +13,7 @@ public class NavigationService
 
     public void NavigateToApartment(int apartmentId)
     {
-        _navManager.NavigateTo($"/apartment/{apartmentId}");
+        _navManager.NavigateTo($"/apartment/{apartmentId}", true);
     }
 
     public void NavigateToInvestment(int investmentId)

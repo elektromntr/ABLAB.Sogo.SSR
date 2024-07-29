@@ -1,5 +1,7 @@
-﻿using ABLAB.Sogo.Shared.Dtos;
+﻿using ABLAB.Sogo.Shared.Configuration;
+using ABLAB.Sogo.Shared.Dtos;
 using ABLAB.Sogo.Shared.Extensions;
+using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 
 namespace ABLAB.Sogo.Shared.Services;
@@ -11,12 +13,14 @@ public class MenusService
     private ApartmentsParams? _searchParameters;
     private DateTime _lastUpdate;
     private readonly HttpClient _httpClient;
+    private readonly IOptions<ApiUrls> _apiUrls = default!;
 
-    public MenusService()
+    public MenusService(IOptions<ApiUrls> apiUrls)
     {
+        _apiUrls = apiUrls;
         _httpClient = new HttpClient
         {
-            BaseAddress = new Uri("http://localhost:56861/api/2/")
+            BaseAddress = new Uri($"{_apiUrls.Value.BaseUrl}/api/2/")
         };
     }
 

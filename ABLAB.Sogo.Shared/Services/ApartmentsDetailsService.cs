@@ -1,7 +1,5 @@
-﻿using ABLAB.Sogo.Shared.Configuration;
-using ABLAB.Sogo.Shared.Dtos;
+﻿using ABLAB.Sogo.Shared.Dtos;
 using ABLAB.Sogo.Shared.Extensions;
-using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -10,23 +8,23 @@ namespace ABLAB.Sogo.Shared.Services;
 
 public class ApartmentsDetailsService
 {
+    private const int DefaultTopCount = 4;
+
     private readonly HttpClient _httpClient;
-    private readonly IOptions<ApiUrls> _apiUrls;
     private readonly OfficesService _officesService;
+    private readonly ApartmentsStore _apartmentsStore;
 
-    public List<ApartmentDetailsDto> Store { get; set; } = new();
-    public static string ApiBaseUrl { get; set; } = default!;
+    public static List<ApartmentDetailsDto> Store { get; set; } = new();
 
-    public ApartmentsDetailsService(IOptions<ApiUrls> apiUrls,
-        OfficesService officesService)
+    public ApartmentsDetailsService(OfficesService officesService,
+        ApartmentsStore apartmentsStore)
     {
-        _apiUrls = apiUrls;
         _officesService = officesService;
-        ApiBaseUrl = _apiUrls.Value.BaseUrl;
         _httpClient = new HttpClient
         {
-            BaseAddress = new Uri($"{_apiUrls.Value.BaseUrl}/api/2/")
+            BaseAddress = new Uri($"{ApartmentsStore.ApiBaseUrl}/api/2/")
         };
+        _apartmentsStore = apartmentsStore;
     }
 
     public async Task<ApartmentDetailsDto> GetApartmentDetails(int id)
@@ -44,6 +42,12 @@ public class ApartmentsDetailsService
         return result;
     }
 
+    public async Task<ApartmentDto[]> GetTopApartments(int investmentId)
+    {
+        var result = await _apartmentsStore.GetPopularApartments(investmentId, DefaultTopCount);
+        return result ?? Array.Empty<ApartmentDto>();
+    }
+
     private async Task<ApartmentDetailsDto> FetchApartmentDetails(int id)
     {
         ApartmentDetailsDto? apartment = null;
@@ -52,7 +56,7 @@ public class ApartmentsDetailsService
             apartment = await _httpClient.GetFromJsonAsync<ApartmentDetailsDto>($"apartment/{id}", new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            }, 
+            },
             CancellationToken.None);
             if (apartment is not null)
             {

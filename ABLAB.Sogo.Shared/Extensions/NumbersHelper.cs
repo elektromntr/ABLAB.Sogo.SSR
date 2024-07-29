@@ -27,4 +27,19 @@ public static class NumbersHelper
         }
         return value.Value.ToString("N2", new CultureInfo("pl-PL")) + " m²";
     }
+
+    public static string ToRooms(this int value)
+    {
+        if (value == 1)
+        {
+            return "1 pokój";
+        } else if (value > 1 && value < 5)
+        {
+            return value + " pokoje";
+        } else if (value >= 5)
+        {
+            return value + " pokoi";
+        }
+        return value + " pok.";
+    }
 }

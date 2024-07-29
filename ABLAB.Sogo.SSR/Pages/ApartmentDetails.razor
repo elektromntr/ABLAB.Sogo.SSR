@@ -13,7 +13,7 @@
                 <h1>@Apartment.Investment.Name</h1>
             }
             <ul class="bread-crumb clearfix">
-                <li><a @onclick="() => NavManager.NavigateHome()">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li>Szczegóły nieruchomości</li>
             </ul>
         </div>
@@ -187,7 +187,7 @@
                         </div>
                         <div class="info-box">
                             <h4 class="name">Biuro</h4>
-                            <span class="designation">Zadzwoń do nas i umów się na spotkanie</span>
+                            <span class="designation"><a href="#contact-form">Zadzwoń do nas i umów się na spotkanie</a></span>
                             <ul class="contact-info">
                                 @foreach(var contact in Apartment.Investment.Office.Contacts)
                                 {
@@ -213,6 +213,39 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Agent Form Widget -->
+                <div class="sidebar-widget agent-from-widget">
+                    <div class="sidebar-title"><h2>NAPISZ DO NAS</h2></div>
+                    <div class="widget-content">
+                        <div class="agent-form" id="contact-form">
+                            <div class="form-group">
+                                <input type="text" name="username" placeholder="Imię" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <input type="number" name="number" placeholder="Telefon" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="message" placeholder="Wiadomość"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="theme-btn btn-style-one" type="submit" name="submit-form">Wyślij</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                        <!-- Recent Properties -->
+                        <div class="sidebar-widget recent-properties">
+                            <div class="sidebar-title"><h2>TOP 4 @Apartment.Investment.Name</h2></div>
+                            <div class="widget-content">
+                                <ABLAB.Sogo.SSR.Components.InvestmentsTopComponent InvestmentId="@Apartment.Investment.Id" />
+                            </div>
+                        </div>
+
                 </aside>
                 </div>
             </div>

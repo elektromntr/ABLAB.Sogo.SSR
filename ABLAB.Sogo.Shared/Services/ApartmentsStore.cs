@@ -2,6 +2,7 @@
 using ABLAB.Sogo.Shared.Dtos;
 using ABLAB.Sogo.Shared.Extensions;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 
 namespace ABLAB.Sogo.Shared.Services;
@@ -67,14 +68,17 @@ public class ApartmentsStore
         return result;
     }
 
-    public async Task<IList<ApartmentDto>> GetPopularApartments()
+    public async Task<ApartmentDto[]> GetPopularApartments(int investmentId, int? count)
     {
         await CheckStore();
 
-        var popular = Store.OrderByDescending(a => a.Counter)
-            .Take(DefaultPopularCount).ToList();
+        var popular = Store
+            .Where(a => investmentId == 0 ? a.Investment.Id > 0 : a.Investment.Id == investmentId)
+            .OrderByDescending(a => a.Counter)
+            .Take(count ?? DefaultPopularCount)
+            .ToArray();
 
-        return (popular is not null && popular.Count > 0) ? popular : Array.Empty<ApartmentDto>();
+        return (popular?.Length > 0) ? popular : Array.Empty<ApartmentDto>();
     }
 
     public async Task<IList<InvestmentDto>> GetInvestments()

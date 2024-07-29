@@ -14,6 +14,11 @@ public partial class ApartmentDetails : ComponentBase
 
     protected ApartmentDetailsDto Apartment { get; set; } = new();
 
+    protected async Task<ApartmentDto[]> TopApartments(int investmentId)
+    {
+        return await ApartmentDetailsService.GetTopApartments(investmentId);
+    }
+
     protected override async Task OnInitializedAsync()
     {
         Apartment = await ApartmentDetailsService.GetApartmentDetails(Id);

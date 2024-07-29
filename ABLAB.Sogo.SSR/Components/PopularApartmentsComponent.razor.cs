@@ -17,7 +17,7 @@ public partial class PopularApartmentsComponent
     {
         try
         {
-            PopularApartments = await ApartmentsService.GetPopularApartments();
+            PopularApartments = await ApartmentsService.GetPopularApartments(0, 4);
         }
         catch (Exception e)
         {

@@ -6,9 +6,28 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Components\FooterComponent.razor" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <ProjectReference Include="..\ABLAB.Sogo.Shared\ABLAB.Sogo.Shared.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\FooterComponent.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\FooterComponent.razor" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Components\FooterComponent.razor" />
   </ItemGroup>
 
   
