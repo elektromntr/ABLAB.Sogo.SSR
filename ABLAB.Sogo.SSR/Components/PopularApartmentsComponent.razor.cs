@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 
 namespace ABLAB.Sogo.SSR.Components;
 
-public partial class PopularApartmentsComponent
+public partial class PopularApartmentsComponent : ComponentBase
 {
     [Inject] private JsConsole JsConsole { get; set; } = default!;
     [Inject] private IJSRuntime JS { get; set; } = default!;

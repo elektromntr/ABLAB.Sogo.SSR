@@ -42,9 +42,9 @@ public class ApartmentsDetailsService
         return result;
     }
 
-    public async Task<ApartmentDto[]> GetTopApartments(int investmentId)
+    public async Task<ApartmentDto[]> GetTopApartments(int investmentId, int topLength)
     {
-        var result = await _apartmentsStore.GetPopularApartments(investmentId, DefaultTopCount);
+        var result = await _apartmentsStore.GetPopularApartments(investmentId, topLength);
         return result ?? Array.Empty<ApartmentDto>();
     }
 

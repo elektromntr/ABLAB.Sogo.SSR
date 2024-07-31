@@ -1,4 +1,6 @@
-﻿<!-- Main Footer -->
+﻿@using ABLAB.Sogo.SSR.Components
+
+<!-- Main Footer -->
 <footer class="main-footer" style="background-image: url(images/background/10.jpg);">
     <div class="auto-container">
         <div class="upper-box">
@@ -6,19 +8,17 @@
                 <!-- Upper column -->
                 <div class="upper-column col-lg-3 col-md-12 col-sm-12">
                     <div class="footer-logo">
-                        <figure class="image"><a href="index.html"><img src="images/logo-2.png" alt=""></a></figure>
+                        <figure class="image"><a href="/"><img src="\images\logos\logoSogo.png" style="height:60px" alt=""></a></figure>
                     </div>
                 </div>
 
                 <!-- Upper column -->
                 <div class="upper-column col-lg-6 col-md-12 col-sm-12">
                     <div class="subscribe-form">
-                        <form method="post" action="#">
-                            <div class="form-group">
-                                <input type="email" name="email" value="" placeholder="Enter Your Email" required="">
-                                <button type="submit" class="theme-btn btn-style-four">Submit</button>
-                            </div>
-                        </form>
+                        <div class="form-group">
+                            <input type="email" name="email" value="" placeholder="Podaj email, odezwiemy się" required="">
+                            <button type="submit" class="theme-btn btn-style-four">Kontakt</button>
+                        </div>
                     </div>
                 </div>
 
@@ -27,10 +27,9 @@
                     <div class="social-links">
                         <ul class="social-icon-two">
                             <li><a href="#"><i class="la la-instagram"></i></a></li>
-                            <li><a href="#"><i class="la la-twitter"></i></a></li>
-                            <li><a href="#"><i class="la la-google-plus"></i></a></li>
-                            <li><a href="#"><i class="la la-github"></i></a></li>
                             <li><a href="#"><i class="la la-pinterest"></i></a></li>
+                            <li><a href="#"><i class="la la-facebook"></i></a></li>
+                            <li><a href="#"><i class="la la-youtube"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -46,7 +45,7 @@
                         <!--Footer Column-->
                         <div class="footer-column col-lg-6 col-md-6 col-sm-12">
                             <div class="footer-widget">
-                                <h2 class="widget-title">About Us</h2>
+                                <h2 class="widget-title">O Nas</h2>
                                 <p> Lorem ipsum dolor sit amet, consectetuer a the adipiscing elit. Aenean commodo ligulai dolor. Aenean massa Lorem ipsum dolor sit amet, consectetuer a the adipiscing elit. Aenean commodo ligulai dolor.</p>
                             </div>
                         </div>
@@ -54,14 +53,13 @@
                         <!--Footer Column-->
                         <div class="footer-column col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="footer-widget links-widget">
-                                <h2 class="widget-title">Services</h2>
+                                <h2 class="widget-title">Inwestycje</h2>
                                 <div class="widget-content">
                                     <ul class="list clearfix">
-                                        <li><a href="property-grid-view.html">Browse All Places</a></li>
-                                        <li><a href="property-grid-view.html">Browse all Categories</a></li>
-                                        <li><a href="faq.html">FAQ & Support</a></li>
-                                        <li><a href="#">Terms of use</a></li>
-                                        <li><a href="#">Privacy Policy</a></li>
+                                        <li><a href="/">Osiedle Lutynia</a></li>
+                                        <li><a href="/">Osiedle Krzeptów</a></li>
+                                        <li><a href="/">Osiedle Smolec</a></li>
+                                        <li><a href="/">Osiedle Przyjazne</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -76,19 +74,19 @@
                         <div class="footer-column col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <!--Footer Column-->
                             <div class="footer-widget popular-posts">
-                                <h2 class="widget-title">Popular Posts</h2>
+                                <h2 class="widget-title">Popularne nieruchomości</h2>
                                 <!--Footer Column-->
                                 <div class="widget-content">
+                                    @* <FooterTopsComponent InvestmentId="0" TopLength="2" /> *@
                                     <div class="post">
-                                        <div class="thumb"><a href="blog-detail.html"><img src="images/resource/post-thumb-1.jpg" alt=""></a></div>
-                                        <h4><a href="blog-detail.html">Modern Design Building </a></h4>
-                                        <span class="date">1 March, 2020</span>
+                                        <div class="thumb"><a href="/"><img src="images/resource/post-thumb-1.jpg" alt=""></a></div>
+                                        <h4><a href="/">Mieszkanie LL1P1</a></h4>
+                                        <span class="date">34 m<sup>2</sup></span>
                                     </div>
-
                                     <div class="post">
-                                        <div class="thumb"><a href="blog-detail.html"><img src="images/resource/post-thumb-2.jpg" alt=""></a></div>
-                                        <h4><a href="blog-detail.html">Real Estate Expo 2020</a></h4>
-                                        <span class="date">10 March, 2020</span>
+                                        <div class="thumb"><a href="/"><img src="images/resource/post-thumb-2.jpg" alt=""></a></div>
+                                        <h4><a href="/">Mieszkanie ZZ1X3</a></h4>
+                                        <span class="date">72 m<sup>2</sup></span>
                                     </div>
                                 </div>
                             </div>
@@ -97,12 +95,12 @@
                         <!--Footer Column-->
                         <div class="footer-column col-lg-6 col-md-6 col-sm-12">
                             <div class="footer-widget contact-widget">
-                                <h2 class="widget-title">Get in Touch</h2>
+                                <h2 class="widget-title">Biura</h2>
                                 <div class="widget-content">
                                     <ul class="contact-list">
-                                        <li><span class="la la-map-marker"></span> 121, King St, VIC 3000, <br>NY. United States Of America.</li>
-                                        <li><span class="la la-phone"></span>(001) 123456 - (002) 1234567</li>
-                                        <li><span class="la la-envelope"></span><a href="mailto:info@example.com">info@example.com</a></li>
+                                        <li><span class="la la-map-marker"></span> Wróblowice, ul. Bolesława Krzywoustego 1/1</li>
+                                        <li><span class="la la-map-marker"></span> Smolec, ul. Kasztanowa 33/1</li>
+                                        <li><span class="la la-envelope"></span><a href="mailto:sprzedaz@osiedla-sogo.pl">sprzedaz@osiedla-sogo.pl</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -122,13 +120,11 @@
             <div class="inner-container clearfix">
                 <div class="copyright-text">
                     <p>
-                        Copyright ©      <script>
-                                             var d = new Date();
-                                             document.write(d.getFullYear());
-                        </script> Made by Fairy Meadows Themes.
+                        Sogo © @CurrentYear - All Rights Reserved
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+<!-- End Main Footer -->

@@ -12,7 +12,7 @@
         var apartmentUrl = $"/apartment/{topApartment.Id}";
         <!-- Post -->
         <article class="post">
-            <div class="post-thumb">
+            <div class="post-thumb thumb">
                 <a href="@apartmentUrl">
                     <img src="@imageUrl" alt="">
                     @if(maxCounter == topApartment.Counter)
@@ -37,10 +37,13 @@
     [Parameter]
     public int InvestmentId { get; set; }
 
+    [Parameter]
+    public int TopLength { get; set; } = 4;
+
     protected ApartmentDto[] TopApartments { get; set; } = Array.Empty<ApartmentDto>();
 
     protected override async Task OnInitializedAsync()
     {
-        TopApartments = await ApartmentsDetailsService.GetTopApartments(InvestmentId);
+        TopApartments = await ApartmentsDetailsService.GetTopApartments(InvestmentId, TopLength);
     }
 }

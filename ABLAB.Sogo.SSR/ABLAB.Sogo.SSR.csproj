@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Components\FooterComponent.razor" />
+    <Content Remove="Components\FooterTopsComponent.razor" />
   </ItemGroup>
 
 
@@ -17,17 +17,17 @@
 
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Components\FooterComponent.razor" />
+    <UpToDateCheckInput Remove="Components\FooterTopsComponent.razor" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Components\FooterComponent.razor" />
+    <_ContentIncludedByDefault Remove="Components\FooterTopsComponent.razor" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <None Include="Components\FooterComponent.razor" />
+    <None Include="Components\FooterTopsComponent.razor" />
   </ItemGroup>
 
   

@@ -2,7 +2,8 @@
 <ul>
     @foreach(var investment in Investments)
     {
-        <li><a @onclick="() => NavManager.NavigateToInvestment(investment.Id)">@investment.Name</a></li>
+        <li><a href="/" @onclick="() => NavManager.NavigateToInvestment(investment.Id)">@investment.Name</a></li>
+
     }
 </ul>
 

@@ -6,7 +6,7 @@ using Microsoft.JSInterop;
 
 namespace ABLAB.Sogo.SSR.Components;
 
-public partial class FilteredApartmentsComponent
+public partial class FilteredApartmentsComponent : ComponentBase
 {
     private const int DefaultTakeCount = 6;
 

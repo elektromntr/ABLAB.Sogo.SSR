@@ -1,0 +1,34 @@
+﻿@using ABLAB.Sogo.Shared.Dtos
+@using ABLAB.Sogo.Shared.Extensions
+@using ABLAB.Sogo.Shared.Services
+
+@if(TopApartments.Length > 0)
+{
+    @foreach (var topApartment in TopApartments)
+    {
+        var imageUrl = $"{ApartmentsStore.ApiBaseUrl}{topApartment.ImageFile}";
+        var topApartmentUrl = $"/apartment/{topApartment.Id}";
+        <div class="post">
+            <div class="thumb"><a href="@topApartmentUrl"><img src="@imageUrl" alt=""></a></div>
+            <h4><a href="@topApartmentUrl">@topApartment.Symbol</a></h4>
+            <span class="area"><i class="flaticon-dimension"></i>@topApartment.Area.SqrMeters()</span>
+        </div>
+    }
+}
+@code {
+    [Inject]
+    private ApartmentsDetailsService ApartmentsDetailsService { get; set; } = default!;
+
+    [Parameter]
+    public int InvestmentId { get; set; } = 0;
+
+    [Parameter]
+    public int TopLength { get; set; } = 2;
+
+    protected ApartmentDto[] TopApartments { get; set; } = Array.Empty<ApartmentDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        TopApartments = await ApartmentsDetailsService.GetTopApartments(InvestmentId, TopLength);
+    }
+}

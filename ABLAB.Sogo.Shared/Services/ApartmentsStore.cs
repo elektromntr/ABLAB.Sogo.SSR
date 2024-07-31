@@ -72,13 +72,13 @@ public class ApartmentsStore
     {
         await CheckStore();
 
-        var popular = Store
+        ApartmentDto[] popular = Store
             .Where(a => investmentId == 0 ? a.Investment.Id > 0 : a.Investment.Id == investmentId)
             .OrderByDescending(a => a.Counter)
             .Take(count ?? DefaultPopularCount)
             .ToArray();
 
-        return (popular?.Length > 0) ? popular : Array.Empty<ApartmentDto>();
+        return popular;
     }
 
     public async Task<IList<InvestmentDto>> GetInvestments()

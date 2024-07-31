@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace ABLAB.Sogo.SSR.Components;
 
-public partial class SearchParametersComponent
+public partial class SearchParametersComponent : ComponentBase
 {
     [Inject] private JsConsole JsConsole { get; set; } = default!;
     [Inject] private MenusService MenusService { get; set; } = default!;
